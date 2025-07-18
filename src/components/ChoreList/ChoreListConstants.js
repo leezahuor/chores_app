@@ -1,0 +1,1 @@
+export const CHORE_LIST_EMPTY_MSG = "No chores to display";
