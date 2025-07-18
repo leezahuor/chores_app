@@ -1,0 +1,49 @@
+.chore-list-container {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.chore-list-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.chore-list-scroll {
+  overflow-y: auto;
+  max-height: 300px;
+  padding-right: 0.5rem;
+}
+
+.chore-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.chore-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.chore-info {
+  font-size: 0.875rem;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chore-empty-message {
+  font-style: italic;
+  color: #888;
+}

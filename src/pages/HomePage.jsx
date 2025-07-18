@@ -1,9 +1,11 @@
+import ChoreList from "../components/ChoreList/ChoreList";
+
 function HomePage() {
-    return (
-        <div>
-            <h2>Chore List</h2>
-        </div>
-    );
-};
+  return (
+    <div>
+      <ChoreList />
+    </div>
+  );
+}
 
 export default HomePage;
