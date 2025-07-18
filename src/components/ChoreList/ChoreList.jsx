@@ -1,4 +1,5 @@
 import "./ChoreList.css";
+import * as C from "./ChoreListConstants";
 
 // Sample data for the chore list
 const sampleChores = [
@@ -23,7 +24,7 @@ const sampleChores = [
 const sampleChores2 =[];
 
 function ChoreList() {
-  const chores = sampleChores;
+  const chores = sampleChores2;
 
   return (
     <div className="chore-list-container">
@@ -31,7 +32,7 @@ function ChoreList() {
       <div className="chore-list-scroll">
         {/* If chore list is empty, display empty message, otherwise create chore cards */}
         {chores.length === 0 ? (
-          <p className="chore-empty-message">No chores to display</p>
+          <p className="chore-empty-message">{C.CHORE_LIST_EMPTY_MSG}</p>
         ) : (
           chores.map((chore, index) => (
             <div className="chore-card" key={index}>
