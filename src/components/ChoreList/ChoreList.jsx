@@ -21,10 +21,10 @@ const sampleChores = [
 ];
 
 // Empty sample data to pass to test that chore empty message works
-const sampleChores2 =[];
+const sampleChores2 = [];
 
 function ChoreList() {
-  const chores = sampleChores2;
+  const chores = sampleChores;
 
   return (
     <div className="chore-list-container">

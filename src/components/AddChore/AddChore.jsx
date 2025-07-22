@@ -1,43 +1,43 @@
-import './AddChore.css'
-import { useState } from 'react';
+import "./AddChore.css";
+import { useState } from "react";
 
 function AddChore() {
-    const [name, setName] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const [assignee, setAssignee] = useState('');
+  const [name, setName] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [assignee, setAssignee] = useState("");
 
-    // const addChore = async (e) => {
-    //     e.preventDefault();
+  // const addChore = async (e) => {
+  //     e.preventDefault();
 
-    //     const newChore = {
-    //         name, 
-    //         dueDate,
-    //         assignee
-    //     };
+  //     const newChore = {
+  //         name,
+  //         dueDate,
+  //         assignee
+  //     };
 
-    //     const response = await
-    // };
+  //     const response = await
+  // };
 
-    return (
-        <div>
-            <h2>Add a Chore</h2>
-            <form>
-                <label>
-                    Name:
-                    <input value={name} />
-                </label>
-                <label>
-                    Due:
-                    <input value={dueDate} />
-                </label>
-                <label>
-                    Assignee:
-                    <input value={assignee} />
-                </label>
-                <button>Add</button>
-            </form>
-        </div>
-    );
+  return (
+    <div className="add-chore-container">
+      <h2 className="add-chore-title">Add a Chore</h2>
+      <form className="add-chore-card">
+        <label className="add-chore-info">
+          Name:
+          <input value={name} />
+        </label>
+        <label className="add-chore-info">
+          Due:
+          <input value={dueDate} />
+        </label>
+        <label className="add-chore-info">
+          Assignee:
+          <input value={assignee} />
+        </label>
+        <button className="add-chore-button">Add</button>
+      </form>
+    </div>
+  );
 }
 
 export default AddChore;
