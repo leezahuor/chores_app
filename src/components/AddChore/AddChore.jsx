@@ -1,6 +1,30 @@
+import './AddChore.css'
+import { useState } from 'react';
+
 function AddChore() {
+    const [name, setName] = useState('');
+    const [dueDate, setDueDate] = useState('');
+    const [assignee, setAssignee] = useState('');
+
     return (
-        
+        <div>
+            <h2>Add a Chore</h2>
+            <form>
+                <label>
+                    Name:
+                    <input value={name} />
+                </label>
+                <label>
+                    Due:
+                    <input value={dueDate} />
+                </label>
+                <label>
+                    Assignee:
+                    <input value={assignee} />
+                </label>
+                <button>Add</button>
+            </form>
+        </div>
     );
 }
 
