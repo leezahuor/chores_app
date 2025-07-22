@@ -24,15 +24,15 @@ function AddChore() {
       <form className="add-chore-card">
         <label className="add-chore-info">
           Name:
-          <input value={name} />
+          <input className="add-chore-input" value={name} />
         </label>
         <label className="add-chore-info">
           Due:
-          <input value={dueDate} />
+          <input className="add-chore-input" value={dueDate} />
         </label>
         <label className="add-chore-info">
           Assignee:
-          <input value={assignee} />
+          <input className="add-chore-input" value={assignee} />
         </label>
         <button className="add-chore-button">Add</button>
       </form>
