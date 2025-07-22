@@ -6,6 +6,18 @@ function AddChore() {
     const [dueDate, setDueDate] = useState('');
     const [assignee, setAssignee] = useState('');
 
+    // const addChore = async (e) => {
+    //     e.preventDefault();
+
+    //     const newChore = {
+    //         name, 
+    //         dueDate,
+    //         assignee
+    //     };
+
+    //     const response = await
+    // };
+
     return (
         <div>
             <h2>Add a Chore</h2>
