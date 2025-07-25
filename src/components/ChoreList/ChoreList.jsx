@@ -1,31 +1,7 @@
 import "./ChoreList.css";
 import * as C from "./ChoreListConstants";
 
-// // Sample data for the chore list
-// const sampleChores = [
-//   {
-//     name: "Take out the trash",
-//     dueDate: "2025-07-20",
-//     assignee: "Josh",
-//   },
-//   {
-//     name: "Vacuum living room",
-//     dueDate: "2025-07-18",
-//     assignee: "Leeza",
-//   },
-//   {
-//     name: "Wash dishes",
-//     dueDate: "2025-07-17",
-//     assignee: "Amanda",
-//   },
-// ];
-
-// // Empty sample data to pass to test that chore empty message works
-// const sampleChores2 = [];
-
 function ChoreList({ chores }) {
-  // const chores = sampleChores;
-
   return (
     <div className="chore-list-container">
       <h2 className="chore-list-title">Chores</h2>
@@ -36,10 +12,12 @@ function ChoreList({ chores }) {
         ) : (
           chores.map((chore, index) => (
             <div className="chore-card" key={index}>
-              <div className="chore-name">{chore.name}</div>
+              <div className="chore-name">{chore.choreName}</div>
               <div className="chore-info">
                 <span>Due: {new Date(chore.dueDate).toLocaleDateString()}</span>
                 <span>Assigned to: {chore.assignee}</span>
+                <span>Frequency: {chore.frequency}</span>
+                <span>Reminder: {new Date(chore.reminder).toLocaleDateString()}</span>
               </div>
             </div>
           ))

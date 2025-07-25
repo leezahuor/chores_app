@@ -6,6 +6,8 @@ function AddChore({ onAddChore }) {
     choreName: "",
     dueDate: "",
     assignee: "",
+    frequency: "",
+    reminder: "",
   });
 
   const submitButton = (e) => {
@@ -16,13 +18,15 @@ function AddChore({ onAddChore }) {
       choreName: "",
       dueDate: "",
       assignee: "",
+      frequency: "",
+      reminder: "",
     });
   };
 
   return (
-    <div className="add-chore-container">
-      <h2 className="add-chore-title">Add a Chore</h2>
-      <form className="add-chore-card" onSubmit={submitButton}>
+    <div>
+      <h2>Add a Chore</h2>
+      <form className="add-chore-card add-chore-scroll" onSubmit={submitButton}>
         <label htmlFor="name" className="add-chore-info">
           Name:
           <input
@@ -64,9 +68,33 @@ function AddChore({ onAddChore }) {
             }}
           />
         </label>
-        <button className="add-chore-button" type="submit">
-          Add
-        </button>
+        <label htmlFor="frequency" className="add-chore-info">
+          Frequency:
+          <input
+            className="add-chore-input"
+            data-testid="input-frequency"
+            id="frequency"
+            type="number"
+            value={chore.frequency}
+            onChange={(e) => {
+              setChore({ ...chore, frequency: e.target.value });
+            }}
+          />
+        </label>
+        <label htmlFor="reminder" className="add-chore-info">
+          Reminder:
+          <input
+            className="add-chore-input"
+            data-testid="input-reminder"
+            id="reminder"
+            type="date"
+            value={chore.reminder}
+            onChange={(e) => {
+              setChore({ ...chore, reminder: e.target.value });
+            }}
+          />
+        </label>
+        <button type="submit">Add</button>
       </form>
     </div>
   );
