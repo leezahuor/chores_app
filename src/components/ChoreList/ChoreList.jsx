@@ -1,30 +1,30 @@
 import "./ChoreList.css";
 import * as C from "./ChoreListConstants";
 
-// Sample data for the chore list
-const sampleChores = [
-  {
-    name: "Take out the trash",
-    dueDate: "2025-07-20",
-    assignee: "Josh",
-  },
-  {
-    name: "Vacuum living room",
-    dueDate: "2025-07-18",
-    assignee: "Leeza",
-  },
-  {
-    name: "Wash dishes",
-    dueDate: "2025-07-17",
-    assignee: "Amanda",
-  },
-];
+// // Sample data for the chore list
+// const sampleChores = [
+//   {
+//     name: "Take out the trash",
+//     dueDate: "2025-07-20",
+//     assignee: "Josh",
+//   },
+//   {
+//     name: "Vacuum living room",
+//     dueDate: "2025-07-18",
+//     assignee: "Leeza",
+//   },
+//   {
+//     name: "Wash dishes",
+//     dueDate: "2025-07-17",
+//     assignee: "Amanda",
+//   },
+// ];
 
-// Empty sample data to pass to test that chore empty message works
-const sampleChores2 = [];
+// // Empty sample data to pass to test that chore empty message works
+// const sampleChores2 = [];
 
-function ChoreList() {
-  const chores = sampleChores;
+function ChoreList({ chores }) {
+  // const chores = sampleChores;
 
   return (
     <div className="chore-list-container">

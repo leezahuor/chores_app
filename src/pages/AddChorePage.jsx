@@ -1,11 +1,25 @@
-import AddChore from "../components/AddChore/AddChore";
+// import { useState } from "react";
+// import AddChore from "../components/AddChore/AddChore";
 
-function AddChorePage() {
-  return (
-    <div>
-      <AddChore />
-    </div>
-  );
-}
+// function AddChorePage() {
+//   const [chores, setChores] = useState([]);
 
-export default AddChorePage;
+//   const handleAddChore = (newChore) => {
+//     setChores([...chores, newChore]);
+//   };
+
+//   return (
+//     <div>
+//       <AddChore onAddChore={handleAddChore} />
+//       <ul>
+//         {chores.map((chore, index) => (
+//           <li key={index}>
+//             {chore.choreName} - {chore.dueDate} - {chore.assignee}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default AddChorePage;
