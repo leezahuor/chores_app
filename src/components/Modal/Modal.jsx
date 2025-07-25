@@ -14,4 +14,3 @@ function Modal({ children, onClose }) {
 }
 
 export default Modal;
-// fix modal UI and then add testing //
