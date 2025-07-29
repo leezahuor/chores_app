@@ -1,9 +1,10 @@
 import ChoreList from "../components/ChoreList/ChoreList";
 
-function HomePage() {
+function HomePage({ chores, onShowModal }) {
   return (
     <div>
-      <ChoreList />
+      <button onClick={onShowModal}>Add Chore</button>
+      <ChoreList chores={chores} />
     </div>
   );
 }
