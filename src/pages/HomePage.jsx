@@ -1,9 +1,13 @@
+import React from "react";
 import ChoreList from "../components/ChoreList/ChoreList";
 
-function HomePage() {
+function HomePage({ chores, onShowModal }) {
   return (
     <div>
-      <ChoreList />
+      <button onClick={onShowModal} data-testid="homepage-add-chore-btn">
+        Add Chore
+      </button>
+      <ChoreList chores={chores} />
     </div>
   );
 }
