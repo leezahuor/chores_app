@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 
 describe("AddChore", () => {
-  it("Checks if the AddChore method is being called (not updated)", async () => {
+  it("Checks if the AddChore method is being called", async () => {
     // Create mock function for onAddChore
     const mockFunction = vi.fn();
     render(<AddChore onAddChore={mockFunction} />);
