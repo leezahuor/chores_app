@@ -21,7 +21,7 @@ describe("HomePage", () => {
   it("calls onShowModal when Add Chore is clicked", () => {
     const mockOnShowModal = vi.fn();
     render(<HomePage chores={[]} onShowModal={mockOnShowModal} />);
-    fireEvent.click(screen.getByTestId("add-chore-btn"));
+    fireEvent.click(screen.getByTestId("homepage-add-chore-btn"));
     expect(mockOnShowModal).toHaveBeenCalledTimes(1);
   });
 
