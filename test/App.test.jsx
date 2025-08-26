@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import App from "../src/App";
 import React from "react";
 import "@testing-library/jest-dom/vitest";
-import App from "../src/App";
 
 // Mock AddChore to capture the onAddChore prop
 vi.mock("../src/components/AddChore/AddChore.jsx", () => {

@@ -1,31 +1,28 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { cleanup, render, screen, fireEvent } from "@testing-library/react";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import HomePage from "../../../src/pages/HomePage";
-import { describe, it, expect, vi } from "vitest";
+import React from "react";
 import "@testing-library/jest-dom/vitest";
-import { afterEach } from "vitest";
-import { cleanup } from "@testing-library/react";
 
-afterEach(() => {
-  cleanup();
-});
+// Clears DOM after each test
+afterEach(cleanup);
 
 describe("HomePage", () => {
-  it("renders Add Chore button", () => {
+  it("Checks if Add Chore button is being rendered", () => {
     render(<HomePage chores={[]} onShowModal={() => {}} />);
     expect(
       screen.getByRole("button", { name: /add chore/i })
     ).toBeInTheDocument();
   });
 
-  it("calls onShowModal when Add Chore is clicked", () => {
+  it("Checks if Add Chore modal is being rendered when Add Chore is clicked", () => {
     const mockOnShowModal = vi.fn();
     render(<HomePage chores={[]} onShowModal={mockOnShowModal} />);
     fireEvent.click(screen.getByTestId("homepage-add-chore-btn"));
     expect(mockOnShowModal).toHaveBeenCalledTimes(1);
   });
 
-  it("renders chore items from list", () => {
+  it("Checks if chore items from list is being rendered", () => {
     const sampleChores = [
       {
         choreName: "Mop",

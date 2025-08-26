@@ -1,17 +1,14 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { afterEach, describe, it, expect, vi } from "vitest";
+import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import Modal from "../../../src/components/Modal/Modal";
-import { describe, it, expect, vi } from "vitest";
+import React from "react";
 import "@testing-library/jest-dom/vitest";
-import { afterEach } from "vitest";
-import { cleanup } from "@testing-library/react";
 
-afterEach(() => {
-  cleanup();
-});
+// Clears DOM after each test
+afterEach(cleanup);
 
 describe("Modal", () => {
-  it("renders modal correctly", () => {
+  it("Checks if modal renders correctly", () => {
     render(
       <Modal onClose={() => {}}>
         <p>Modal Content</p>
@@ -22,7 +19,7 @@ describe("Modal", () => {
     expect(screen.getByText("Close")).toBeInTheDocument();
   });
 
-  it("calls onClose when clicking overlay", () => {
+  it("Calls onClose when clicking overlay", () => {
     const mockClose = vi.fn();
 
     render(
@@ -35,7 +32,7 @@ describe("Modal", () => {
     expect(mockClose).toHaveBeenCalledTimes(1);
   });
 
-  it("calls onClose when clicking close button", () => {
+  it("Calls onClose when clicking close button", () => {
     const mockClose = vi.fn();
 
     render(
@@ -48,7 +45,7 @@ describe("Modal", () => {
     expect(mockClose).toHaveBeenCalled();
   });
 
-  it("does not call onClose when clicking inside modal", () => {
+  it("Does not call onClose when clicking inside modal", () => {
     const mockClose = vi.fn();
 
     render(

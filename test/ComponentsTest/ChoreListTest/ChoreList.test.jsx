@@ -1,18 +1,20 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import ChoreList from "../../../src/components/ChoreList/ChoreList";
-import * as C from "../../../src/components/ChoreList/ChoreListConstants";
 import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import * as C from "../../../src/components/ChoreList/ChoreListConstants";
+import ChoreList from "../../../src/components/ChoreList/ChoreList";
+import React from "react";
 import "@testing-library/jest-dom/vitest";
 
 describe("ChoreList", () => {
-  it("checks if empty message displays when chore list is empty", async () => {
+  it("Checks if empty message displays when chore list is empty", async () => {
     render(<ChoreList chores={[]} />);
     const emptyMessage = screen.getByText(C.CHORE_LIST_EMPTY_MSG);
+    // Expect empy chore list message to appear when list is empty
     expect(emptyMessage).toBeInTheDocument();
   });
 
-  it("checks if sample chores are being displayed", async () => {
+  it("Checks if sample chores are being displayed", async () => {
+    // Make sample chores list to pass to chores prop
     const sampleChores = [
       {
         choreName: "Mop",
@@ -34,6 +36,7 @@ describe("ChoreList", () => {
 
     const list = screen.getAllByTestId("chore-list");
 
+    // Checks if each item is in the list
     expect(list[0]).toHaveTextContent("Mop");
     expect(list[0]).toHaveTextContent("10/23/2025");
     expect(list[0]).toHaveTextContent("Leeza");
