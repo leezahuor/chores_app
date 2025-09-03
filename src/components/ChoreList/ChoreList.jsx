@@ -1,8 +1,10 @@
 import React from "react";
 import "./ChoreList.css";
 import * as C from "./ChoreListConstants";
+import ChoreItem from "../ChoreItem/ChoreItem";
 
-function ChoreList({ chores }) {
+function ChoreList({ chores, onDelete, onUpdate }) {
+
   return (
     <div className="chore-list-container">
       <h2 className="chore-list-title">Chores</h2>
@@ -11,21 +13,19 @@ function ChoreList({ chores }) {
         {chores.length === 0 ? (
           <p className="chore-empty-message">{C.CHORE_LIST_EMPTY_MSG}</p>
         ) : (
-          chores.map((chore, index) => (
-            <div className="chore-card" key={index} data-testid="chore-list">
-              <div className="chore-name">{chore.choreName}</div>
-              <div className="chore-info">
-                <span data-testid="chore-due-date">
-                  Due: {new Date(chore.dueDate).toLocaleDateString()}
-                </span>
-                <span>Assigned to: {chore.assignee}</span>
-                <span>Frequency: {chore.frequency}</span>
-                <span>
-                  Reminder: {new Date(chore.reminder).toLocaleDateString()}
-                </span>
-              </div>
-            </div>
-          ))
+          <ul>
+            {chores.map((chore, index) => (
+              <ChoreItem
+                key={chore.id}
+                chore={chore}
+                index={index}
+                onDelete={onDelete}
+                onUpdate={onUpdate}
+                className="chore-card"
+                data-testid="chore-list"
+              />
+            ))}
+          </ul>
         )}
       </div>
     </div>

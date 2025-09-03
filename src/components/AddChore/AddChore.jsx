@@ -13,7 +13,10 @@ function AddChore({ onAddChore }) {
 
   const submitButton = (e) => {
     e.preventDefault();
-    onAddChore({ ...chore });
+
+    if (!chore.choreName || !chore.dueDate) return;
+
+    onAddChore({ ...chore, id: Date.now() });
 
     setChore({
       choreName: "",
@@ -71,16 +74,21 @@ function AddChore({ onAddChore }) {
         </label>
         <label htmlFor="frequency" className="add-chore-info">
           Frequency:
-          <input
+          <select
             className="add-chore-input"
             data-testid="input-frequency"
             id="frequency"
-            type="number"
             value={chore.frequency}
             onChange={(e) => {
               setChore({ ...chore, frequency: e.target.value });
             }}
-          />
+          >
+            <option value="">Select</option>
+            <option value="once">Once</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
         </label>
         <label htmlFor="reminder" className="add-chore-info">
           Reminder:

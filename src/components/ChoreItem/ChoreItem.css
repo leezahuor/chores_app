@@ -1,0 +1,15 @@
+.chore-completed {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.6;
+}
+
+.undo-button {
+  font-size: 0.875rem;
+  background-color: gray;
+  border-radius: 0.25rem;
+}
+
+.undo-button:hover {
+    background-color: #d1d5db;
+}
