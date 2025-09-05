@@ -22,7 +22,7 @@ describe("AddChore", () => {
     await userEvent.type(choreName, "Mop");
     await userEvent.type(dueDate, "2025-10-23");
     await userEvent.type(assignee, "Leeza");
-    await userEvent.type(frequency, "1");
+    await userEvent.selectOptions(frequency, "once");
     await userEvent.type(reminder, "2025-10-30");
 
     // Find and simulate clicking "Add" button
@@ -37,8 +37,9 @@ describe("AddChore", () => {
       choreName: "Mop",
       dueDate: "2025-10-23",
       assignee: "Leeza",
-      frequency: "1",
+      frequency: "once",
       reminder: "2025-10-30",
+      id: expect.any(Number),
     });
   });
 });

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./ChoreItem.css";
+import { getNextDate, getNextAssignee } from "../../utils/ChoreUtils";
 
 function ChoreItem({ chore, index, onDelete, onUpdate }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -33,7 +34,7 @@ function ChoreItem({ chore, index, onDelete, onUpdate }) {
   };
 
   return (
-    <li className="chore-card" data-testid="chore-list">
+    <div className="chore-card" data-testid={`chore-item-${index}`}>
       <div className="chore-name">
         <input
           type="checkbox"
@@ -41,7 +42,6 @@ function ChoreItem({ chore, index, onDelete, onUpdate }) {
           checked={isChecked}
           onChange={handleOnChange}
           disabled={isChecked && showUndo}
-          data-testid={`chore-checkbox-${index}`}
         />
         <label
           htmlFor={`custom-checkbox-${index}`}
@@ -64,25 +64,8 @@ function ChoreItem({ chore, index, onDelete, onUpdate }) {
         <span>Frequency: {chore.frequency}</span>
         <span>Reminder: {new Date(chore.reminder).toLocaleDateString()}</span>
       </div>
-    </li>
+    </div>
   );
-}
-
-function getNextDate(current, frequency) {
-  const newDueDate = new Date(current);
-  if (frequency === "daily") newDueDate.setDate(newDueDate.getDate() + 1);
-  if (frequency === "weekly") newDueDate.setDate(newDueDate.getDate() + 7);
-  if (frequency === "monthly") newDueDate.setDate(newDueDate.getDate() + 28);
-  return newDueDate;
-}
-
-function getNextAssignee(currentAssignee) {
-  const assigneesList = ["Leeza", "Amanda", "Josh", "Sesame"];
-  const idx = assigneesList.indexOf(currentAssignee);
-
-  if (idx === -1) return assigneesList[0];
-
-  return assigneesList[(idx + 1) % assigneesList.length];
 }
 
 export default ChoreItem;

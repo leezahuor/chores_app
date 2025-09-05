@@ -4,7 +4,6 @@ import * as C from "./ChoreListConstants";
 import ChoreItem from "../ChoreItem/ChoreItem";
 
 function ChoreList({ chores, onDelete, onUpdate }) {
-
   return (
     <div className="chore-list-container">
       <h2 className="chore-list-title">Chores</h2>
@@ -15,15 +14,15 @@ function ChoreList({ chores, onDelete, onUpdate }) {
         ) : (
           <ul>
             {chores.map((chore, index) => (
-              <ChoreItem
-                key={chore.id}
-                chore={chore}
-                index={index}
-                onDelete={onDelete}
-                onUpdate={onUpdate}
-                className="chore-card"
-                data-testid="chore-list"
-              />
+              <li key={chore.id}>
+                <ChoreItem
+                  chore={chore}
+                  index={index}
+                  onDelete={onDelete}
+                  onUpdate={onUpdate}
+                  data-testid={`chore-item-${index}`}
+                />
+              </li>
             ))}
           </ul>
         )}
