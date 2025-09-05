@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "@testing-library/jest-dom/vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
   render,
   screen,
@@ -7,18 +6,21 @@ import {
   act,
   cleanup,
 } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ChoreItem from "../../../src/components/ChoreItem/ChoreItem";
+import React, { useState } from "react";
+import "@testing-library/jest-dom/vitest";
 
-// Use fake timers for setTimeout logic
+// Use fake timer for setTimeout
 beforeEach(() => {
   vi.useFakeTimers();
 });
 
+// Clears DOM after each test
 afterEach(cleanup);
 
 describe("ChoreItem", () => {
-  const baseChore = {
+  // Create sample chore to use for testing scenarios
+  const sampleChore = {
     id: 1,
     choreName: "Mop",
     assignee: "Leeza",
@@ -27,10 +29,10 @@ describe("ChoreItem", () => {
     reminder: new Date("2025-09-02"),
   };
 
-  it("renders chore details", () => {
+  it("Checks if chore info is being rendered", () => {
     render(
       <ChoreItem
-        chore={baseChore}
+        chore={sampleChore}
         index={0}
         onDelete={() => {}}
         onUpdate={() => {}}
@@ -43,10 +45,10 @@ describe("ChoreItem", () => {
     expect(screen.getByTestId("chore-due-date")).toHaveTextContent("Due:");
   });
 
-  it("marks chore as checked and shows Undo button", () => {
+  it("Checks the checkbox and checks if undo button appears", () => {
     render(
       <ChoreItem
-        chore={baseChore}
+        chore={sampleChore}
         index={0}
         onDelete={() => {}}
         onUpdate={() => {}}
@@ -54,17 +56,17 @@ describe("ChoreItem", () => {
     );
 
     const checkbox = screen.getByRole("checkbox");
-    fireEvent.click(checkbox);
+    fireEvent.click(checkbox); // Simulates checkbox check
 
-    expect(checkbox).toBeChecked();
-    expect(screen.getByText("Undo")).toBeInTheDocument();
+    expect(checkbox).toBeChecked(); // Expect checkbox is checked
+    expect(screen.getByText("Undo")).toBeInTheDocument(); // Expect undo button appears
   });
 
-  it("calls onDelete after timeout when frequency is once", () => {
-    const mockDelete = vi.fn();
+  it("Checks if onDelete is called when timer reaches end and frequency is once", () => {
+    const mockDelete = vi.fn(); // Mocks onDelete
     render(
       <ChoreItem
-        chore={baseChore}
+        chore={sampleChore}
         index={0}
         onDelete={mockDelete}
         onUpdate={() => {}}
@@ -73,17 +75,17 @@ describe("ChoreItem", () => {
 
     fireEvent.click(screen.getByRole("checkbox"));
 
-    // advance time by 3 seconds
+    // Advances timer by 3 seconds
     act(() => {
       vi.advanceTimersByTime(3000);
     });
 
-    expect(mockDelete).toHaveBeenCalledWith(baseChore.id);
+    expect(mockDelete).toHaveBeenCalledWith(sampleChore.id); // Expect onDelete to have been called
   });
 
-  it("calls onUpdate after timeout when frequency is not once", () => {
-    const mockUpdate = vi.fn();
-    const recurringChore = { ...baseChore, frequency: "daily" };
+  it("Checks if onUpdate is called when timer reaches end and frequency is not once", () => {
+    const mockUpdate = vi.fn(); // Mocks onUpdate
+    const recurringChore = { ...sampleChore, frequency: "daily" }; // Sets frequency to daily
 
     render(
       <ChoreItem
@@ -100,20 +102,20 @@ describe("ChoreItem", () => {
       vi.advanceTimersByTime(3000);
     });
 
-    expect(mockUpdate).toHaveBeenCalled();
+    expect(mockUpdate).toHaveBeenCalled(); // Expects onUpdate to have been called
     const updatedChore = mockUpdate.mock.calls[0][0];
-    expect(updatedChore.assignee).not.toBe(recurringChore.assignee); // rotated assignee
+    expect(updatedChore.assignee).not.toBe(recurringChore.assignee); // Rotates to a new assignee
     expect(new Date(updatedChore.dueDate).getTime()).not.toBe(
       new Date(recurringChore.dueDate).getTime()
-    ); // new date assigned
+    ); // Assigns new date based off of frequency
   });
 
-  it("cancels delete/update when Undo is clicked", () => {
+  it("Checks if undo cancels action", () => {
     const mockDelete = vi.fn();
     const mockUpdate = vi.fn();
     render(
       <ChoreItem
-        chore={baseChore}
+        chore={sampleChore}
         index={0}
         onDelete={mockDelete}
         onUpdate={mockUpdate}
@@ -122,7 +124,7 @@ describe("ChoreItem", () => {
 
     fireEvent.click(screen.getByRole("checkbox"));
 
-    fireEvent.click(screen.getByText("Undo")); // cancel action
+    fireEvent.click(screen.getByText("Undo")); // Undoes checking the checkbox
 
     act(() => {
       vi.advanceTimersByTime(3000);

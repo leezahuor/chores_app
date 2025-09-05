@@ -1,24 +1,14 @@
-import { describe, it, expect, afterEach, vi } from "vitest";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
 import * as C from "../../../src/components/ChoreList/ChoreListConstants";
 import ChoreList from "../../../src/components/ChoreList/ChoreList";
 import React, { useState } from "react";
 import "@testing-library/jest-dom/vitest";
 
-// afterEach(cleanup);
-
 describe("ChoreList", () => {
   it("Checks if empty message displays when chore list is empty", async () => {
     render(<ChoreList chores={[]} />);
     const emptyMessage = screen.getByText(C.CHORE_LIST_EMPTY_MSG);
-    // Expect empy chore list message to appear when list is empty
     expect(emptyMessage).toBeInTheDocument();
   });
 

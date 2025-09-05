@@ -8,7 +8,7 @@ function ChoreList({ chores, onDelete, onUpdate }) {
     <div className="chore-list-container">
       <h2 className="chore-list-title">Chores</h2>
       <div className="chore-list-scroll">
-        {/* If chore list is empty, display empty message, otherwise create chore cards */}
+        {/* If chore list is empty, display empty message, otherwise create chore items */}
         {chores.length === 0 ? (
           <p className="chore-empty-message">{C.CHORE_LIST_EMPTY_MSG}</p>
         ) : (
