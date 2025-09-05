@@ -85,7 +85,11 @@ describe("ChoreItem", () => {
 
   it("Checks if onUpdate is called when timer reaches end and frequency is not once", () => {
     const mockUpdate = vi.fn(); // Mocks onUpdate
-    const recurringChore = { ...sampleChore, frequency: "daily" }; // Sets frequency to daily
+    const recurringChore = {
+      ...sampleChore,
+      frequency: "daily",
+      assignee: "Leeza",
+    }; // Sets frequency to daily and assigns an assignee
 
     render(
       <ChoreItem
@@ -104,10 +108,16 @@ describe("ChoreItem", () => {
 
     expect(mockUpdate).toHaveBeenCalled(); // Expects onUpdate to have been called
     const updatedChore = mockUpdate.mock.calls[0][0];
-    expect(updatedChore.assignee).not.toBe(recurringChore.assignee); // Rotates to a new assignee
-    expect(new Date(updatedChore.dueDate).getTime()).not.toBe(
-      new Date(recurringChore.dueDate).getTime()
-    ); // Assigns new date based off of frequency
+
+    expect(updatedChore.assignee).toBe("Amanda"); // Expects assignee to rotate to next person in list
+
+    // Checks due date increments by 1 day
+    const originalDate = new Date(recurringChore.dueDate);
+    const expectedDate = new Date(originalDate);
+    expectedDate.setDate(originalDate.getDate() + 1);
+    expect(new Date(updatedChore.dueDate).toDateString()).toBe(
+      expectedDate.toDateString()
+    );
   });
 
   it("Checks if undo cancels action", () => {
@@ -132,5 +142,10 @@ describe("ChoreItem", () => {
 
     expect(mockDelete).not.toHaveBeenCalled();
     expect(mockUpdate).not.toHaveBeenCalled();
+
+    expect(screen.getByText("Mop")).toBeInTheDocument();
+    expect(screen.getByText(/Assigned to: Leeza/)).toBeInTheDocument();
+    expect(screen.getByText(/Frequency: once/)).toBeInTheDocument();
+    expect(screen.getByTestId("chore-due-date")).toHaveTextContent("Due:");
   });
 });
