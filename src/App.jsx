@@ -10,14 +10,18 @@ function App() {
   const [showModal, setShowModal] = useState(false);
 
   const handleAddChore = (newChore) => {
-    setChores([...chores, newChore]);
+    setChores([...chores, { ...newChore, completed: false }]);
     setShowModal(false);
   };
 
   return (
     <>
       <div>
-        <HomePage chores={chores} onShowModal={() => setShowModal(true)} />
+        <HomePage
+          chores={chores}
+          setChores={setChores}
+          onShowModal={() => setShowModal(true)}
+        />
 
         {showModal && (
           <Modal onClose={() => setShowModal(false)}>
