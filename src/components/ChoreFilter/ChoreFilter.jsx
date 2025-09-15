@@ -1,30 +1,61 @@
 import React from "react";
 
-function ChoreFilter({ filters, onChange, onClear }) {
+function ChoreFilter({ filters, onChange, onClear, assignees }) {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    onChange({ ...filters, [name]: value });
+  };
+
   return (
-    <div>
-      <select>
-        <option value="">Assignees</option>
-        <option value="Leeza">Leeza</option>
-        <option value="Amanda">Amanda</option>
-        <option value="Josh">Josh</option>
-        <option value="Sesame">Sesame</option>
-      </select>
+    <div className="chore-filter">
+      <h3>Filter Chores</h3>
 
-      <input
-        type="date"
-        value={filters.date}
-        onChange={(e) => onChange({ ...filters, date: e.target.value })}
-      />
+      <div className="filter-group">
+        <label>
+          Assignee:
+          <select
+            name="assignee"
+            value={filters.assignee}
+            onChange={handleInputChange}
+          >
+            <option value="">All</option>
+            {assignees.length > 0 ? (
+              assignees.map((a) => (
+                <option key={a} value={a}>
+                  {a}
+                </option>
+              ))
+            ) : (
+              <option disabled>No assignees</option>
+            )}
+          </select>
+        </label>
 
-      <input
-        type="text"
-        placeholder="Filter by location"
-        value={filters.location}
-        onChange={(e) => onChange({ ...filters, location: e.target.value })}
-      />
+        <label>
+          Due Date:
+          <input
+            type="date"
+            name="date"
+            value={filters.date}
+            onChange={handleInputChange}
+          />
+        </label>
 
-      <button onClick={onClear}>Clear Filters</button>
+        <label>
+          Location:
+          <input
+            type="text"
+            name="location"
+            placeholder="Kitchen, Bathroom..."
+            value={filters.location}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
+
+      <button className="clear-btn" onClick={onClear}>
+        Clear Filters
+      </button>
     </div>
   );
 }
