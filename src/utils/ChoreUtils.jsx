@@ -1,11 +1,13 @@
-// Helper function used in ChoreItem.jsx to calculate a new date. 
+// Helper function used in ChoreItem.jsx to calculate a new date.
 // Used to find a new due date and reminder date for a reoccurring chore.
 export function getNextDate(current, frequency) {
   const newDueDate = new Date(current);
+
   if (frequency === "daily") newDueDate.setDate(newDueDate.getDate() + 1);
   if (frequency === "weekly") newDueDate.setDate(newDueDate.getDate() + 7);
   if (frequency === "monthly") newDueDate.setDate(newDueDate.getDate() + 28);
-  return newDueDate;
+
+  return newDueDate.toISOString().split("T")[0];
 }
 
 // Helper function used in ChoreItem.jsx to assign new assignee for a chore item.
@@ -16,4 +18,14 @@ export function getNextAssignee(currentAssignee) {
   if (idx === -1) return assigneesList[0];
 
   return assigneesList[(idx + 1) % assigneesList.length];
+}
+
+// Helper function used to reformat date as a MM/DD/YYYY string to keep dates consistent
+export function formatDisplayDate(dateString) {
+  if (!dateString || typeof dateString !== "string") {
+    console.warn("Date must be a string", dateString);
+    return "";
+  }
+  const [year, month, day] = dateString.split("-");
+  return `${month}/${day}/${year}`;
 }

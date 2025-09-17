@@ -25,8 +25,8 @@ describe("ChoreItem", () => {
     choreName: "Mop",
     assignee: "Leeza",
     frequency: "once",
-    dueDate: new Date("2025-09-01"),
-    reminder: new Date("2025-09-02"),
+    dueDate: "2025-09-01",
+    reminder: "2025-09-02",
   };
 
   it("Checks if chore info is being rendered", () => {

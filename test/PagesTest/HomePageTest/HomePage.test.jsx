@@ -30,14 +30,92 @@ describe("HomePage", () => {
         assignee: "Leeza",
         frequency: "1",
         reminder: "10/30/2025",
+        location: "Kitchen",
+        id: 1,
       },
     ];
     render(<HomePage chores={sampleChores} onShowModal={() => {}} />);
 
     expect(screen.getByText("Mop")).toBeInTheDocument();
-    expect(screen.getByText(/Leeza/i)).toBeInTheDocument();
+    expect(screen.getByText(/Assigned to:\s*Leeza/i)).toBeInTheDocument();
     expect(screen.getByTestId("chore-due-date")).toHaveTextContent(
       "10/23/2025"
     );
+  });
+
+  it("Filters chores by assignee", () => {
+    const sampleChores = [
+      {
+        choreName: "Mop",
+        dueDate: "10/23/2025",
+        assignee: "Leeza",
+        frequency: "weekly",
+        reminder: "10/30/2025",
+        location: "Kitchen",
+        id: 1,
+      },
+      {
+        choreName: "Vacuum",
+        dueDate: "10/25/2025",
+        assignee: "Amanda",
+        frequency: "daily",
+        reminder: "10/28/2025",
+        location: "Living Room",
+        id: 2,
+      },
+    ];
+    render(
+      <HomePage
+        chores={sampleChores}
+        onShowModal={() => {}}
+        setChores={() => {}}
+      />
+    );
+
+    fireEvent.change(screen.getByLabelText(/Assignee/i), {
+      target: { value: "Amanda" },
+    });
+
+    expect(screen.getByText("Vacuum")).toBeInTheDocument();
+    expect(screen.queryByText("Mop")).not.toBeInTheDocument();
+  });
+
+  it("Clears filter and shows all chores again", () => {
+    const sampleChores = [
+      {
+        choreName: "Mop",
+        dueDate: "10/23/2025",
+        assignee: "Leeza",
+        frequency: "weekly",
+        reminder: "10/30/2025",
+        location: "Kitchen",
+        id: 1,
+      },
+      {
+        choreName: "Vacuum",
+        dueDate: "10/25/2025",
+        assignee: "Amanda",
+        frequency: "daily",
+        reminder: "10/28/2025",
+        location: "Living Room",
+        id: 2,
+      },
+    ];
+    render(
+      <HomePage
+        chores={sampleChores}
+        onShowModal={() => {}}
+        setChores={() => {}}
+      />
+    );
+
+    fireEvent.change(screen.getByLabelText(/Assignee/i), {
+      target: { value: "Amanda" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /clear filters/i }));
+
+    expect(screen.getByText("Mop")).toBeInTheDocument();
+    expect(screen.getByText("Vacuum")).toBeInTheDocument();
   });
 });
