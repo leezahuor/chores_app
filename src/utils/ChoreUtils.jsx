@@ -21,6 +21,7 @@ export function getNextAssignee(currentAssignee) {
   return assigneesList[(idx + 1) % assigneesList.length];
 }
 
+// Helper function used to reformat date as a MM/DD/YYYY string to keep dates consistent
 export function formatDisplayDate(dateString) {
   if (!dateString || typeof dateString !== "string") {
     console.warn("Date must be a string", dateString);

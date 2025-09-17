@@ -3,6 +3,7 @@ import "./AddChore.css";
 import { useState } from "react";
 
 function AddChore({ onAddChore }) {
+  // Sets new chore state
   const [chore, setChore] = useState({
     choreName: "",
     dueDate: "",
@@ -12,16 +13,16 @@ function AddChore({ onAddChore }) {
     location: "",
   });
 
+  // onAddChore called after user hits submit button
   const submitButton = (e) => {
     e.preventDefault();
 
     if (!chore.choreName || !chore.dueDate) return;
 
-    // ✅ Just use the string directly, no Date() or toISOString()
     const formattedChore = {
       ...chore,
       id: Date.now(),
-      dueDate: chore.dueDate, // <-- stays exactly as "YYYY-MM-DD"
+      dueDate: chore.dueDate,
       reminder: chore.reminder || "",
     };
 
