@@ -1,5 +1,9 @@
-import { describe, it, expect } from "vitest";
-import { getNextDate, getNextAssignee } from "../../src/utils/ChoreUtils.jsx";
+import { describe, it, expect, vi } from "vitest";
+import {
+  getNextDate,
+  getNextAssignee,
+  formatDisplayDate,
+} from "../../src/utils/ChoreUtils.jsx";
 
 describe("ChoreUtils", () => {
   // Tests various scenarios for getNextDate
@@ -7,25 +11,25 @@ describe("ChoreUtils", () => {
     it("Checks if 1 day gets added for daily frequency", () => {
       const today = new Date("2025-09-01");
       const result = getNextDate(today, "daily");
-      expect(result.toISOString().slice(0, 10)).toBe("2025-09-02");
+      expect(result).toBe("2025-09-02");
     });
 
     it("Checks if 7 days gets added for weekly frequency", () => {
       const today = new Date("2025-09-01");
       const result = getNextDate(today, "weekly");
-      expect(result.toISOString().slice(0, 10)).toBe("2025-09-08");
+      expect(result).toBe("2025-09-08");
     });
 
     it("Checks if 28 days gets added for monthly frequency", () => {
       const today = new Date("2025-09-01");
       const result = getNextDate(today, "monthly");
-      expect(result.toISOString().slice(0, 10)).toBe("2025-09-29");
+      expect(result).toBe("2025-09-29");
     });
 
     it("Checks if same date gets returned if frequency is invalid", () => {
       const today = new Date("2025-09-01");
       const result = getNextDate(today, "yearly");
-      expect(result.toISOString().slice(0, 10)).toBe("2025-09-01");
+      expect(result).toBe("2025-09-01");
     });
   });
 
@@ -44,5 +48,25 @@ describe("ChoreUtils", () => {
     it("Checks if an unknown assignee will default to the first assignee", () => {
       expect(getNextAssignee("Unknown")).toBe("Leeza");
     });
+  });
+});
+
+// Tests various scenarios for formatDisplayDate
+describe("formatDisplayDate", () => {
+  it("Checks if date format changes from YYYY-MM-DD to MM/DD/YYYY", () => {
+    const result = formatDisplayDate("2025-09-17");
+    expect(result).toBe("09/17/2025");
+  });
+
+  it("Checks if function handles invalid input properly", () => {
+    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {}); // Spy on console.warn
+
+    const input = 12345; // Invalid input
+    const output = formatDisplayDate(input);
+
+    expect(output).toBe(""); // Expects output to be empty string
+    expect(consoleSpy).toHaveBeenCalledWith("Date must be a string", input); // Expects console.warn to trigger
+
+    consoleSpy.mockRestore(); // Restores original console.warn
   });
 });

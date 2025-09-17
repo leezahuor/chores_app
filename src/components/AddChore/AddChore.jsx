@@ -9,6 +9,7 @@ function AddChore({ onAddChore }) {
     assignee: "",
     frequency: "",
     reminder: "",
+    location: "",
   });
 
   const submitButton = (e) => {
@@ -16,7 +17,15 @@ function AddChore({ onAddChore }) {
 
     if (!chore.choreName || !chore.dueDate) return;
 
-    onAddChore({ ...chore, id: Date.now() });
+    // ✅ Just use the string directly, no Date() or toISOString()
+    const formattedChore = {
+      ...chore,
+      id: Date.now(),
+      dueDate: chore.dueDate, // <-- stays exactly as "YYYY-MM-DD"
+      reminder: chore.reminder || "",
+    };
+
+    onAddChore(formattedChore);
 
     setChore({
       choreName: "",
@@ -24,6 +33,7 @@ function AddChore({ onAddChore }) {
       assignee: "",
       frequency: "",
       reminder: "",
+      location: "",
     });
   };
 
@@ -100,6 +110,20 @@ function AddChore({ onAddChore }) {
             value={chore.reminder}
             onChange={(e) => {
               setChore({ ...chore, reminder: e.target.value });
+            }}
+          />
+        </label>
+        <label htmlFor="location" className="add-chore-info">
+          Location:
+          <input
+            className="add-chore-input"
+            data-testid="input-location"
+            id="location"
+            type="text"
+            placeholder="Location"
+            value={chore.location}
+            onChange={(e) => {
+              setChore({ ...chore, location: e.target.value });
             }}
           />
         </label>

@@ -1,16 +1,20 @@
 import React, { useState, useRef } from "react";
 import "./ChoreItem.css";
-import { getNextDate, getNextAssignee } from "../../utils/ChoreUtils";
+import {
+  getNextDate,
+  getNextAssignee,
+  formatDisplayDate,
+} from "../../utils/ChoreUtils";
 
 function ChoreItem({ chore, index, onDelete, onUpdate }) {
   const [isChecked, setIsChecked] = useState(false); // Keeps track of checked state
   const [showUndo, setShowUndo] = useState(false); // Keeps track of undo button state
   const timerRef = useRef(null); // Keeps track of timer
 
-  // When chore is checked, undo button appears and a timer begins to give users 
+  // When chore is checked, undo button appears and a timer begins to give users
   // a 3 second window to undo the check, otherwise chore will get updated.
   // If chore occurs once, chore gets deleted from list.
-  // If chore is reoccuring (daily, weekly, monthly, etc.), chore due date and reminder date gets 
+  // If chore is reoccuring (daily, weekly, monthly, etc.), chore due date and reminder date gets
   // updated and assignee will cycle to next person in group.
   const handleOnChange = () => {
     setIsChecked(true);
@@ -63,11 +67,12 @@ function ChoreItem({ chore, index, onDelete, onUpdate }) {
 
       <div className="chore-info">
         <span data-testid="chore-due-date">
-          Due: {new Date(chore.dueDate).toLocaleDateString()}
+          Due: {formatDisplayDate(chore.dueDate)}
         </span>
         <span>Assigned to: {chore.assignee}</span>
         <span>Frequency: {chore.frequency}</span>
-        <span>Reminder: {new Date(chore.reminder).toLocaleDateString()}</span>
+        <span>Reminder: {formatDisplayDate(chore.reminder)}</span>
+        <span>Location: {chore.location}</span>
       </div>
     </div>
   );

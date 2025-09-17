@@ -1,16 +1,17 @@
 import React from "react";
 
 function ChoreFilter({ filters, onChange, onClear, assignees }) {
+  // Allows user to filter list by assignee, due date, or location of chore.
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     onChange({ ...filters, [name]: value });
   };
 
   return (
-    <div className="chore-filter">
-      <h3>Filter Chores</h3>
+    <div>
+      <h4>Filter Chores By:</h4>
 
-      <div className="filter-group">
+      <div>
         <label>
           Assignee:
           <select
@@ -46,16 +47,14 @@ function ChoreFilter({ filters, onChange, onClear, assignees }) {
           <input
             type="text"
             name="location"
-            placeholder="Kitchen, Bathroom..."
+            placeholder="Kitchen..."
             value={filters.location}
             onChange={handleInputChange}
           />
         </label>
       </div>
 
-      <button className="clear-btn" onClick={onClear}>
-        Clear Filters
-      </button>
+      <button onClick={onClear}>Clear Filters</button>
     </div>
   );
 }

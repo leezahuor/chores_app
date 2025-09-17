@@ -31,10 +31,7 @@ function HomePage({ chores, onShowModal, setChores }) {
     const filteredAssignee =
       !filters.assignee || chore.assignee === filters.assignee;
 
-    const filteredDate =
-      !filters.date ||
-      new Date(chore.dueDate).toDateString() ===
-        new Date(filters.date).toDateString();
+    const filteredDate = !filters.date || chore.dueDate === filters.date;
 
     const filteredLocation =
       !filters.location ||
