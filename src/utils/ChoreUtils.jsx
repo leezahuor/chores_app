@@ -7,7 +7,6 @@ export function getNextDate(current, frequency) {
   if (frequency === "weekly") newDueDate.setDate(newDueDate.getDate() + 7);
   if (frequency === "monthly") newDueDate.setDate(newDueDate.getDate() + 28);
 
-  // ✅ Return as YYYY-MM-DD string (no timezones, no Date object)
   return newDueDate.toISOString().split("T")[0];
 }
 
