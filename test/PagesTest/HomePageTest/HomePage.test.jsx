@@ -201,3 +201,60 @@ it("Sorts list with whatever sort method is selected", () => {
   const choreRows = screen.getAllByTestId(/chore-item-\d+/);
   expect(choreRows[0]).toHaveTextContent(/Mop|Vacuum/);
 });
+
+it("Sorts chores and filters", () => {
+  const sampleChores = [
+    {
+      choreName: "Mop",
+      dueDate: "10/23/2025",
+      assignee: "Leeza",
+      frequency: "weekly",
+      reminder: "10/30/2025",
+      location: "Kitchen",
+      id: 1,
+    },
+    {
+      choreName: "Vacuum",
+      dueDate: "10/25/2025",
+      assignee: "Amanda",
+      frequency: "daily",
+      reminder: "10/28/2025",
+      location: "Living Room",
+      id: 2,
+    },
+    {
+      choreName: "Trash",
+      dueDate: "10/30/2025",
+      assignee: "Josh",
+      frequency: "weekly",
+      reminder: "10/29/2025",
+      location: "Kitchen",
+      id: 3,
+    },
+  ];
+
+  render(
+    <HomePage
+      chores={sampleChores}
+      onShowModal={() => {}}
+      setChores={() => {}}
+    />
+  );
+
+  fireEvent.change(screen.getByLabelText(/Sort By:/i), {
+    target: { value: "choreName" },
+  });
+
+  const choreRows = screen.getAllByTestId(/chore-item-\d+/);
+  expect(choreRows[0]).toHaveTextContent("Mop");
+  expect(choreRows[1]).toHaveTextContent("Trash");
+  expect(choreRows[2]).toHaveTextContent("Vacuum");
+
+  fireEvent.change(screen.getByLabelText(/Assignee/i), {
+    target: { value: "Amanda" },
+  });
+
+  const filteredChores = screen.getAllByTestId(/chore-item-\d+/);
+  expect(filteredChores).toHaveLength(1);
+  expect(filteredChores[0]).toHaveTextContent("Vacuum");
+});
