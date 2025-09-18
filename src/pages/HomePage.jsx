@@ -11,6 +11,7 @@ function HomePage({ chores, onShowModal, setChores }) {
     location: "",
   });
 
+  // Handles sorted state
   const [sorted, setSorted] = useState(chores);
 
   // Handles chore deletion
