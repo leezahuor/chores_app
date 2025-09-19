@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ChoreList from "../components/ChoreList/ChoreList";
 import ChoreFilter from "../components/ChoreFilter/ChoreFilter";
+import ChoreSort from "../components/ChoreSort/ChoreSort";
 
 function HomePage({ chores, onShowModal, setChores }) {
   // Handles filters state
@@ -9,6 +10,9 @@ function HomePage({ chores, onShowModal, setChores }) {
     date: "",
     location: "",
   });
+
+  // Handles sorted state
+  const [sorted, setSorted] = useState(chores);
 
   // Handles chore deletion
   const handleDelete = (id) => {
@@ -33,7 +37,7 @@ function HomePage({ chores, onShowModal, setChores }) {
   };
 
   // Filters chores
-  const filteredChores = chores.filter((chore) => {
+  const filteredChores = sorted.filter((chore) => {
     // Filters by assignee
     const filteredAssignee =
       !filters.assignee || chore.assignee === filters.assignee;
@@ -56,6 +60,8 @@ function HomePage({ chores, onShowModal, setChores }) {
       <button onClick={onShowModal} data-testid="homepage-add-chore-btn">
         Add Chore
       </button>
+
+      <ChoreSort chores={chores} onSorted={setSorted} />
 
       <ChoreFilter
         filters={filters}
