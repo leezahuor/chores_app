@@ -4,6 +4,7 @@ import {
   getNextDate,
   getNextAssignee,
   formatDisplayDate,
+  isChoreLate,
 } from "../../utils/ChoreUtils";
 
 function ChoreItem({ chore, index, onDelete, onUpdate }) {
@@ -16,6 +17,8 @@ function ChoreItem({ chore, index, onDelete, onUpdate }) {
   // If chore occurs once, chore gets deleted from list.
   // If chore is reoccuring (daily, weekly, monthly, etc.), chore due date and reminder date gets
   // updated and assignee will cycle to next person in group.
+  const late = isChoreLate(chore); // Flags late chores
+
   const handleOnChange = () => {
     setIsChecked(true);
     setShowUndo(true);
@@ -43,7 +46,10 @@ function ChoreItem({ chore, index, onDelete, onUpdate }) {
   };
 
   return (
-    <div className="chore-card" data-testid={`chore-item-${index}`}>
+    <div
+      className={`chore-card ${chore.isLate ? "late-chore" : ""}`}
+      data-testid={`chore-item-${index}`}
+    >
       <div className="chore-name">
         <input
           type="checkbox"

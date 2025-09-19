@@ -148,4 +148,18 @@ describe("ChoreItem", () => {
     expect(screen.getByText(/Frequency: once/)).toBeInTheDocument();
     expect(screen.getByTestId("chore-due-date")).toHaveTextContent("Due:");
   });
+
+  it("Checks if it flags late chores", () => {
+    const lateChore = { ...sampleChore, isLate: true };
+    render(
+      <ChoreItem
+        chore={lateChore}
+        index={0}
+        onDelete={() => {}}
+        onUpdate={() => {}}
+      />
+    );
+
+    expect(screen.getByTestId("chore-item-0")).toHaveClass("late-chore");
+  });
 });

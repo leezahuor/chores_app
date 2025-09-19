@@ -29,3 +29,32 @@ export function formatDisplayDate(dateString) {
   const [year, month, day] = dateString.split("-");
   return `${month}/${day}/${year}`;
 }
+
+// Helper function to get late chores by comparing their due dates with current due date
+export function getLateChores(chores = []) {
+  const today = new Date();
+  return chores.map((chore) => {
+    let dueDate = chore.dueDate ? new Date(chore.dueDate) : null;
+    return {
+      ...chore,
+      isLate: dueDate ? dueDate < today : false,
+    };
+  });
+}
+
+// Helper function to push late chores to top of list
+export function sortLateChoresFirst(chores = []) {
+  return [...chores].sort((a, b) => {
+    if (a.isLate && !b.isLate) return -1;
+    if (!a.isLate && b.isLate) return 1;
+    return 0;
+  });
+}
+
+// Helper function to assign chores as late
+export function isChoreLate(chore) {
+  if (!chore.dueDate) return false;
+  const today = new Date();
+  const due = new Date(chore.dueDate);
+  return due < today;
+}
