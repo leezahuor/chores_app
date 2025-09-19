@@ -1,11 +1,29 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import {
   getNextDate,
   getNextAssignee,
   formatDisplayDate,
+  getLateChores,
+  sortLateChoresFirst,
+  isChoreLate,
 } from "../../src/utils/ChoreUtils.jsx";
 
 describe("ChoreUtils", () => {
+  const mockToday = new Date("2025-09-18T12:00:00Z"); // Mocks today's date
+  const realDate = Date; // Stores real date
+
+  // Before every test, set system time to mockToday
+  beforeAll(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(mockToday);
+  });
+
+  // After each test, restores code affected by timers 
+  afterAll(() => {
+    vi.useRealTimers();
+    global.Date = realDate;
+  });
+
   // Tests various scenarios for getNextDate
   describe("getNextDate", () => {
     it("Checks if 1 day gets added for daily frequency", () => {
@@ -68,5 +86,64 @@ describe("formatDisplayDate", () => {
     expect(consoleSpy).toHaveBeenCalledWith("Date must be a string", input); // Expects console.warn to trigger
 
     consoleSpy.mockRestore(); // Restores original console.warn
+  });
+});
+
+// Tests various scenarios for getLateChores
+describe("getLateChores", () => {
+  it("Flags chores with past due dates as late", () => {
+    const chores = [
+      { id: 1, choreName: "Mop", dueDate: "2025-09-10" }, // Late
+      { id: 2, choreName: "Vacuum", dueDate: "2026-09-20" }, // Not late
+      { id: 3, choreName: "Dishes", dueDate: null }, // No date
+    ];
+    const result = getLateChores(chores);
+    expect(result[0].isLate).toBe(true);
+    expect(result[1].isLate).toBe(false);
+    expect(result[2].isLate).toBe(false);
+  });
+
+  it("Returns empty array when chores is empty", () => {
+    expect(getLateChores([])).toEqual([]);
+  });
+});
+
+// Tests various scenarios for sortLateChoresFirst
+describe("sortLateChoresFirst", () => {
+  it("places late chores at the beginning of the array", () => {
+    const chores = [
+      { id: 1, choreName: "Mop", isLate: false },
+      { id: 2, choreName: "Vacuum", isLate: true },
+      { id: 3, choreName: "Dishes", isLate: false },
+    ];
+    const result = sortLateChoresFirst(chores);
+    expect(result[0].choreName).toBe("Vacuum"); // Late chore should be first
+  });
+
+  it("maintains relative order among chores with same lateness status", () => {
+    const chores = [
+      { id: 1, choreName: "A", isLate: false },
+      { id: 2, choreName: "B", isLate: false },
+      { id: 3, choreName: "C", isLate: true },
+      { id: 4, choreName: "D", isLate: true },
+    ];
+    const result = sortLateChoresFirst(chores);
+    expect(result.map((c) => c.choreName)).toEqual(["C", "D", "A", "B"]);
+  });
+});
+
+// Tests various scenarios for isChoreLate
+describe("isChoreLate", () => {
+  it("Returns true when dueDate is before today", () => {
+    expect(isChoreLate({ dueDate: "2025-09-10" })).toBe(true);
+  });
+
+  it("Returns false when dueDate is after today", () => {
+    expect(isChoreLate({ dueDate: "2026-09-30" })).toBe(false);
+  });
+
+  it("Returns false when dueDate is null or undefined", () => {
+    expect(isChoreLate({ dueDate: null })).toBe(false);
+    expect(isChoreLate({})).toBe(false);
   });
 });

@@ -1,4 +1,11 @@
-import { cleanup, render, screen, fireEvent } from "@testing-library/react";
+import {
+  cleanup,
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { afterEach, describe, it, expect, vi } from "vitest";
 import HomePage from "../../../src/pages/HomePage";
 import React from "react";
@@ -258,4 +265,105 @@ it("Sorts chores and filters", () => {
   expect(filteredChores).toHaveLength(2);
   expect(filteredChores[0]).toHaveTextContent("Mop");
   expect(filteredChores[1]).toHaveTextContent("Trash");
+});
+
+it("Displays late chore modal", async () => {
+  const chores = [
+    {
+      id: "1",
+      choreName: "Mop",
+      assignee: "Leeza",
+      dueDate: "2020-01-01", // Late
+      frequency: "weekly",
+      reminder: "2020-01-02",
+      location: "Kitchen",
+    },
+    {
+      id: "2",
+      choreName: "Vacuum",
+      assignee: "Amanda",
+      dueDate: "2099-01-01", // Not late
+      frequency: "daily",
+      reminder: "2099-01-02",
+      location: "Living Room",
+    },
+  ];
+
+  const setChores = vi.fn();
+  const onShowModal = vi.fn();
+
+  render(
+    <HomePage chores={chores} setChores={setChores} onShowModal={onShowModal} />
+  );
+
+  const modal = await screen.findByRole("dialog");
+  const modalText = within(modal).getByText(/Mop/i);
+  expect(modalText).toBeInTheDocument();
+  expect(within(modal).queryByText(/Vacuum/i)).not.toBeInTheDocument();
+
+  const closeButton = within(modal).getByTestId("modal-close-button");
+  fireEvent.click(closeButton);
+
+  await waitFor(() => {
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+});
+
+it("Reorders late chores to top of list", () => {
+  const sampleChores = [
+    {
+      choreName: "Mop",
+      dueDate: "2025-01-23", // Late
+      assignee: "Leeza",
+      frequency: "weekly",
+      reminder: "2025-01-22",
+      location: "Kitchen",
+      id: 1,
+    },
+    {
+      choreName: "Vacuum",
+      dueDate: "2099-10-25", // Not Late
+      assignee: "Amanda",
+      frequency: "daily",
+      reminder: "2099-10-28",
+      location: "Living Room",
+      id: 2,
+    },
+  ];
+
+  render(
+    <HomePage
+      chores={sampleChores}
+      onShowModal={() => {}}
+      setChores={() => {}}
+    />
+  );
+
+  const choreItems = screen.getAllByTestId(/chore-item-/);
+  expect(choreItems[0]).toHaveTextContent("Mop");
+});
+
+it("Highlights late chores in red", () => {
+  const sampleChores = [
+    {
+      choreName: "Mop",
+      dueDate: "2025-01-23", // Late
+      assignee: "Leeza",
+      frequency: "weekly",
+      reminder: "2025-01-22",
+      location: "Kitchen",
+      id: 1,
+    },
+  ];
+
+  render(
+    <HomePage
+      chores={sampleChores}
+      onShowModal={() => {}}
+      setChores={() => {}}
+    />
+  );
+
+  const lateChoreCard = screen.getByTestId("chore-item-0");
+  expect(lateChoreCard).toHaveClass("late-chore");
 });
