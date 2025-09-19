@@ -250,11 +250,12 @@ it("Sorts chores and filters", () => {
   expect(choreRows[1]).toHaveTextContent("Trash");
   expect(choreRows[2]).toHaveTextContent("Vacuum");
 
-  fireEvent.change(screen.getByLabelText(/Assignee/i), {
-    target: { value: "Amanda" },
+  fireEvent.change(screen.getByLabelText(/Location/i), {
+    target: { value: "Kitchen" },
   });
 
   const filteredChores = screen.getAllByTestId(/chore-item-\d+/);
-  expect(filteredChores).toHaveLength(1);
-  expect(filteredChores[0]).toHaveTextContent("Vacuum");
+  expect(filteredChores).toHaveLength(2);
+  expect(filteredChores[0]).toHaveTextContent("Mop");
+  expect(filteredChores[1]).toHaveTextContent("Trash");
 });
